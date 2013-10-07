@@ -1,0 +1,128 @@
+Python-Projects
+===============
+
+#Solutions to Advanced Problems on http://www.learnpython.org/
+
+#Problem 1: Generators:
+
+def fib():
+    a,b=0,1
+    yield b
+    while True:
+        a,b=b,a+b
+        yield b
+    pass
+
+import types
+if type(fib()) == types.GeneratorType:
+    print "Good, The fib function is a generator."
+
+    counter = 0
+    for n in fib():
+        print n
+        counter += 1
+        if counter == 10:
+            break
+
+#Problem 2: List Comprehensions:
+
+numbers = [34.6, -203.4, 44.9, 68.3, -12.2, 44.6, 12.7]
+newlist = [int(x) for x in numbers if x>0]
+
+print newlist
+
+#Problem 3: Multi-Function Arguments:
+
+def foo(a, b, c,*other):
+    return len(other)
+
+def bar(a, b, c, **magicnumber):
+    if magicnumber.get("magicnumber")==7:
+        return True
+    else:
+        return False
+    pass
+    
+if foo(1,2,3,4) == 1:
+    print "Good."
+if foo(1,2,3,4,5) == 2:
+    print "Better."
+if bar(1,2,3,magicnumber = 6) == False:
+    print "Great."
+if bar(1,2,3,magicnumber = 7) == True:
+    print "Awesome!"
+
+#Problem 4: Exception Handling:
+
+actor = {"name": "John Cleese", "rank": "awesome"}
+
+def get_last_name():
+    x=actor.get("name").split()
+    return x[1]
+
+get_last_name()
+print "All exceptions caught! Good job!"
+print "The actor's last name is %s" % get_last_name()
+
+# ----or------
+
+actor = {"name": "John Cleese", "rank": "awesome"}
+
+def get_last_name():
+   try:
+      return actor["last_name"]
+   except(KeyError):
+      return "Cleese"
+
+get_last_name()
+print "All exceptions caught! Good job!"
+print "The actor's last name is %s" % get_last_name()
+
+#Problem 5: Sets:
+
+a = set(["Jake", "John", "Eric"])
+b = set(["John", "Jill"])
+
+print a.difference(b)
+
+#Problem 6: Serialization Using JSON and Pickle
+
+import json
+
+def add_employee(jsonSalaries, name, salary):     
+    jsonSalaries = json.loads(jsonSalaries)   
+    jsonSalaries[name] = salary
+    return jsonSalaries
+    print json.loads(jsonSalaries)
+
+originalJsonSalaries = '{"Alfred" : 300, "Jane" : 301 }'
+newJsonSalaries = add_employee(originalJsonSalaries, "Me", 800)
+for k in newJsonSalaries:
+    print("{0}: {1}".format(k, newJsonSalaries[k]))
+    
+#Problem 7: Partial Functions
+
+from functools import partial
+def func(u,v,w,x):
+    return u**4 + v**3 + w**2 + x/2
+
+p = partial(func,5,6,7)
+print p(8)
+
+#Problem 8: Code Introspection
+
+class Vehicle:
+    name = ""
+    kind = "car"
+    color = ""
+    value = 100.00 
+    def description(self):
+        desc_str = "%s is a %s %s worth $%.2f." % (self.name, self.color, self.kind, self.value)
+        return desc_str
+
+susan=Vehicle()
+susan.name="This van"
+susan.color="red"
+print susan.description()
+
+print dir(Vehicle)
